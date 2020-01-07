@@ -1,0 +1,16 @@
+add root haha left
+add root lol right
+add haha da left
+add haha net right
+add lol yes left
+add lol no right
+add yes yey left
+add yes wow right
+add no mm right
+children haha
+children wow
+count nodes lol
+count nodes mm
+count nodes net
+count nodes haha
+count nodes root
