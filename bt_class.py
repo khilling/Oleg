@@ -1,59 +1,47 @@
-import sys
-
-
-def add(bt, word1, word2, side):
-    sides = {'left' : 1, 'right' : 2}
-    side = sides.get(side)
-    i = bt.index(word1)
-    if (i * 2 + side) >= len(bt):
-        bt.extend(['' for i in range((i * 2 + side) - len(bt) + 1)])
-    bt[(i * 2 + side)] = word2
-
-
-def children(bt, word1):
-    i = bt.index(word1)
-    try:
-        if len(bt[i * 2 + 1]) > 0:
-            print(bt[i * 2 + 1], end = ' ')
-        try:
-            print(bt[i * 2 + 2])
-        except:
-            pass
-    except:
-        print('')
-
-
-def count_nodes_algorithm(bt, word1):
-    i = bt.index(word1)
-    if i * 2 + 2 < len(bt) and bt[i * 2 + 1] != '' and bt[i * 2 + 2] != '':
-        return 2 + count_nodes_algorithm(bt, bt[i * 2 + 1]) + count_nodes_algorithm(bt, bt[i * 2 + 2])
-    elif i * 2 + 1 < len(bt) and bt[i * 2 + 1] != '':
-        return 1 + count_nodes_algorithm(bt, bt[i * 2 + 1])
-    elif i * 2 + 2 < len(bt) and bt[i * 2 + 2] != '':
-        return 1 + count_nodes_algorithm(bt, bt[i * 2 + 2])
-    else:
-        return 0
-    
-    
-def count_nodes(bt, word1):
-    print(count_nodes_algorithm(bt, word1))
-
-
 class bt():
     def __init__(self):
         self.data = ['root']
         
     def add(self, word1, word2, side):
-        add(self.data, word1, word2, side)
+        sides = {'left' : 1, 'right' : 2}
+        side = sides.get(side)
+        i = self.index(word1)
+        if (i * 2 + side) >= len(self):
+            self.data.extend(['' for i in range((i * 2 + side) - len(self) + 1)])
+        self[(i * 2 + side)] = word2
         
     def children(self, word1):
-        children(self, word1)
+        i = self.index(word1)
+        res = ''
+        try:
+            if len(self[i * 2 + 1]) > 0:
+                res += self[i * 2 + 1]
+            try:
+                if self[i * 2 + 1] != '':
+                    res += ' '
+                res += self[i * 2 + 2]
+            except:
+                pass
+        except:
+            pass
+        return res        
         
     def count_nodes(self, word1):
-        count_nodes(self, word1)
+        i = self.index(word1)
+        if i * 2 + 2 < len(self) and self[i * 2 + 1] != '' and self[i * 2 + 2] != '':
+            return 2 + self.count_nodes(self[i * 2 + 1]) + self.count_nodes(self[i * 2 + 2])
+        elif i * 2 + 1 < len(self) and self[i * 2 + 1] != '':
+            return 1 + self.count_nodes(self[i * 2 + 1])
+        elif i * 2 + 2 < len(self) and self[i * 2 + 2] != '':
+            return 1 + self.count_nodes(self[i * 2 + 2])
+        else:
+            return 0        
     
     def index(self, word):
         return self.data.index(word)
+    
+    def __setitem__(self, i, word):
+        self.data[i] = word
     
     def __repr__(self):
         return str(self.data)
@@ -73,11 +61,11 @@ for line in file:
     print('TREE:', tree)
     item = line.split()
     if item[0] == 'add':
-        tree.add(item[1], item[2], item[3])
+        print(tree.add(item[1], item[2], item[3]))
     elif item[0] == 'children':
-        tree.children(item[1])
+        print(tree.children(item[1]))
     else:
-        tree.count_nodes(item[2])
+        print(tree.count_nodes(item[2]))
         
         
 file.close()
